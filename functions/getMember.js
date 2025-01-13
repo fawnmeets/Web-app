@@ -8,6 +8,11 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 400,
       body: JSON.stringify({ error: 'Please provide either id or email as a query parameter.' }),
+      headers: {
+        'Access-Control-Allow-Origin': 'https://fawn-meets-v1a.webflow.io, https://www.fawnmeets.com', // Allow these domains
+        'Access-Control-Allow-Methods': 'GET, OPTIONS', // Allowed methods
+        'Access-Control-Allow-Headers': 'Content-Type, X-API-KEY', // Allowed headers
+      },
     };
   }
 
@@ -25,12 +30,22 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 200,
       body: JSON.stringify(response.data),
+      headers: {
+        'Access-Control-Allow-Origin': 'https://fawn-meets-v1a.webflow.io, https://www.fawnmeets.com', // Allow these domains
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, X-API-KEY',
+      },
     };
   } catch (error) {
     console.error('Error retrieving member:', error.message);
     return {
       statusCode: error.response ? error.response.status : 500,
       body: JSON.stringify(error.response ? error.response.data : { error: 'An unexpected error occurred.' }),
+      headers: {
+        'Access-Control-Allow-Origin': 'https://fawn-meets-v1a.webflow.io, https://www.fawnmeets.com', // Allow these domains
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, X-API-KEY',
+      },
     };
   }
 };
