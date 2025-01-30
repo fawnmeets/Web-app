@@ -7,7 +7,7 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': 'https://fawn-meets-v1a.webflow.io',
+        'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, X-API-KEY',
       },
@@ -21,7 +21,7 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 400,
       headers: {
-        'Access-Control-Allow-Origin': 'https://fawn-meets-v1a.webflow.io',
+        'Access-Control-Allow-Origin': 'https://fawn-meets-v1a.webflow.io, https://www.fawnmeets.com',
       },
       body: JSON.stringify({ error: 'Please provide either id or email as a query parameter.' }),
     };
@@ -41,7 +41,7 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': 'https://fawn-meets-v1a.webflow.io',
+        'Access-Control-Allow-Origin': 'https://fawn-meets-v1a.webflow.io, https://www.fawnmeets.com',
       },
       body: JSON.stringify(response.data),
     };
@@ -50,7 +50,7 @@ exports.handler = async (event, context) => {
     return {
       statusCode: error.response ? error.response.status : 500,
       headers: {
-        'Access-Control-Allow-Origin': 'https://fawn-meets-v1a.webflow.io',
+        'Access-Control-Allow-Origin': 'https://fawn-meets-v1a.webflow.io, https://www.fawnmeets.com',
       },
       body: JSON.stringify(error.response ? error.response.data : { error: 'An unexpected error occurred.' }),
     };
