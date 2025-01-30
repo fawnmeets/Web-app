@@ -1,13 +1,23 @@
 const axios = require('axios');
 
+// Allowed origins
+const allowedOrigins = [
+  'https://fawn-meets-v1a.webflow.io',
+  'https://www.fawnmeets.com'
+];
+
 // Serverless function handler
 exports.handler = async (event, context) => {
+  // Get the request origin
+  const origin = event.headers.origin;
+  const isAllowedOrigin = allowedOrigins.includes(origin);
+  
   // Handle CORS preflight request
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': isAllowedOrigin ? origin : '',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, X-API-KEY',
       },
@@ -21,7 +31,7 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 400,
       headers: {
-        'Access-Control-Allow-Origin': 'https://fawn-meets-v1a.webflow.io, https://www.fawnmeets.com',
+        'Access-Control-Allow-Origin': isAllowedOrigin ? origin : '',
       },
       body: JSON.stringify({ error: 'Please provide either id or email as a query parameter.' }),
     };
@@ -41,7 +51,7 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': 'https://fawn-meets-v1a.webflow.io, https://www.fawnmeets.com',
+        'Access-Control-Allow-Origin': isAllowedOrigin ? origin : '',
       },
       body: JSON.stringify(response.data),
     };
@@ -50,7 +60,7 @@ exports.handler = async (event, context) => {
     return {
       statusCode: error.response ? error.response.status : 500,
       headers: {
-        'Access-Control-Allow-Origin': 'https://fawn-meets-v1a.webflow.io, https://www.fawnmeets.com',
+        'Access-Control-Allow-Origin': isAllowedOrigin ? origin : '',
       },
       body: JSON.stringify(error.response ? error.response.data : { error: 'An unexpected error occurred.' }),
     };
